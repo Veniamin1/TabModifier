@@ -5,6 +5,7 @@ import org.spongepowered.api.command.args.*;
 import org.spongepowered.api.command.spec.*;
 import org.spongepowered.api.text.*;
 import org.spongepowered.api.text.format.TextColors;
+import veniamin_arefev.tabmodifier.TabModifier;
 
 public class CommandMain implements CommandExecutor {
 
@@ -16,7 +17,7 @@ public class CommandMain implements CommandExecutor {
         }
         Sender.sendMessage(Text.of(TextColors.GOLD, "Plugin Info: "));
         Sender.sendMessage(Text.of(TextColors.GOLD, "Name: TabModifier"));
-        Sender.sendMessage(Text.of(TextColors.GOLD, "Version: v1.5.0"));
+        Sender.sendMessage(Text.of(TextColors.GOLD, "Version: v1.7.0"));
         Sender.sendMessage(Text.of(TextColors.GOLD, "Author: NipoCN and Veniamin_arefev"));
         return CommandResult.success();
     }

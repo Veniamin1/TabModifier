@@ -24,11 +24,10 @@ import java.nio.file.Path;
 @Plugin(id = "tabmodifier",
         name = "Tab Modifier",
         description = "This plugin provides configurations for TAB multiplayer GUI",
-        version = "1.5.0",
+        version = "v1.8.0",
         authors = "NipoCN and Veniamin_arefev",
         dependencies = {
-                @Dependency(id = "luckperms", optional = false),
-                @Dependency(id = "nucleus", optional = true)
+                @Dependency(id = "luckperms", optional = false)
         }
         )
 public class TabModifier {
@@ -73,7 +72,7 @@ public class TabModifier {
                 .build();
         game.getCommandManager().register(this, MainCommand, "tabmodifier", "tab");
         logger.info("---------------------------------------------------------");
-        logger.info("Thank you for using TabModifier made by NipoCN and reworked by Veniamin_arefev");
+        logger.info("Thank you for using TabModifier made by NipoCN and completely reworked by Veniamin_arefev");
         logger.info("---------------------------------------------------------");
     }
 

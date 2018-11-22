@@ -1,6 +1,5 @@
 package veniamin_arefev.tabmodifier.config;
 
-import ninja.leaping.configurate.ConfigurationOptions;
 import veniamin_arefev.tabmodifier.TabModifier;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -13,8 +12,8 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 public class Config {
-    public Path ConfigFile = Paths.get(TabModifier.getInstance().getConfigDir() + "/config.conf");
-    public ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(ConfigFile).build();
+    private Path ConfigFile = Paths.get(TabModifier.getInstance().getConfigDir() + "/config.conf");
+    private ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(ConfigFile).build();
     private CommentedConfigurationNode configNode;
     private static Config confinstance;
 
@@ -64,66 +63,88 @@ public class Config {
         }
     }
 
-    public CommentedConfigurationNode get() {
-        return configNode;
-    }
-
     public void setup() {
-        get().getNode("Default").setComment("set prefix and suffix when user/group's unique prefix/suffix is missing/unset");
-        get().getNode("Default", "prefix").setValue("&a[default]");
-        get().getNode("Default", "suffix").setValue("&9[default]");
-        get().getNode("Feature").setComment("disable some features");
-        get().getNode("Feature", "enableprefix").setValue("true");
-        get().getNode("Feature", "enablesuffix").setValue("true");
-        get().getNode("Formatting").setComment("formatting for prefix and suffix " +
-                "\\n {prefix} and {suffix} will be replaced by prefix and suffix");
-        get().getNode("Formatting", "shoulddefaultprefixuseformatting").setValue("true");
-        get().getNode("Formatting", "shoulddefaultsuffixuseformatting").setValue("true");
-        get().getNode("Formatting", "prefixformat").setValue("{prefix} ");
-        get().getNode("Formatting", "suffixformat").setValue(" {suffix}");
-        get().getNode("header").setComment("set header of tablist");
-        get().getNode("header").setValue("This is Header");
-        get().getNode("footer").setComment("set footer of tablist");
-        get().getNode("footer").setValue("This is Footer");
+        configNode.getNode("Default").setComment("Set prefix and suffix when user/group's unique prefix/suffix is missing/unset");
+        configNode.getNode("Default", "prefix").setValue("§a[default]");
+        configNode.getNode("Default", "suffix").setValue("§9[default]");
+        configNode.getNode("Feature").setComment("Some features settings");
+        configNode.getNode("Feature", "enableprefix").setValue("true");
+        configNode.getNode("Feature", "enablesuffix").setValue("true");
+        configNode.getNode("Feature").getNode("Vanish").setComment("Vanish properties");
+        configNode.getNode("Feature").getNode("Vanish", "preprefix").setComment("This prefix will be displayed" +
+                " before player prefix, must be with space at the end");
+        configNode.getNode("Feature").getNode("Vanish", "preprefix").setValue("§7§o[Vanished]§r ");
+        configNode.getNode("Feature").getNode("Vanish", "enablehidingvanishedplayers").setValue("true");
+        configNode.getNode("Feature").getNode("Vanish", "showvanishedplayerstopermittedplayers").setComment(
+                "Show other permitted players, that you are vanished");
+        configNode.getNode("Feature").getNode("Vanish", "showvanishedplayerstopermittedplayers").setValue("true");
+        configNode.getNode("Feature").getNode("Vanish", "permission").setComment("Default is nucleus permission");
+        configNode.getNode("Feature").getNode("Vanish", "permission").setValue("nucleus.vanish.see");
+        configNode.getNode("Formatting").setComment("Formatting for prefix and suffix " +
+                "\n {prefix} and {suffix} will be replaced by prefix and suffix");
+        configNode.getNode("Formatting", "shoulddefaultprefixuseformatting").setValue("true");
+        configNode.getNode("Formatting", "shoulddefaultsuffixuseformatting").setValue("true");
+        configNode.getNode("Formatting", "prefixformat").setValue("{prefix}§r ");
+        configNode.getNode("Formatting", "suffixformat").setValue(" {suffix}");
+        configNode.getNode("header").setComment("Set header of tablist");
+        configNode.getNode("header").setValue("This is Header");
+        configNode.getNode("footer").setComment("Set footer of tablist");
+        configNode.getNode("footer").setValue("This is Footer");
     }
 
     public String getPrefix() {
-        return get().getNode("Default", "prefix").getString();
+        return configNode.getNode("Default", "prefix").getString();
     }
 
     public String getSuffix() {
-        return get().getNode("Default", "suffix").getString();
+        return configNode.getNode("Default", "suffix").getString();
     }
 
     public boolean isPrefixEnabled() {
-        return get().getNode("Feature", "enableprefix").getBoolean();
+        return configNode.getNode("Feature", "enableprefix").getBoolean();
+    }
+
+    public String getPrePrefix() {
+        return configNode.getNode("Feature").getNode("Vanish", "preprefix").getString();
+    }
+
+    public boolean isVanishEnabled() {
+        return configNode.getNode("Feature").getNode("Vanish", "enablehidingvanishedplayers").getBoolean();
+    }
+
+    public boolean isVanishShowEnabled() {
+        return configNode.getNode("Feature").getNode("Vanish", "showvanishedplayerstopermittedplayers").getBoolean();
+    }
+
+    public String getVanishPermission() {
+        return configNode.getNode("Default", "suffix").getString();
     }
 
     public boolean isSuffixEnabled() {
-        return get().getNode("Feature", "enablesuffix").getBoolean();
+        return configNode.getNode("Feature", "enablesuffix").getBoolean();
     }
 
     public boolean isDefaultPrefixUseFormatting() {
-        return get().getNode("Formatting", "shoulddefaultprefixuseformatting").getBoolean();
+        return configNode.getNode("Formatting", "shoulddefaultprefixuseformatting").getBoolean();
     }
 
     public boolean isDefaultSuffixUseFormatting() {
-        return get().getNode("Formatting", "shoulddefaultsuffixuseformatting").getBoolean();
+        return configNode.getNode("Formatting", "shoulddefaultsuffixuseformatting").getBoolean();
     }
 
     public String getPrefixFormat(){
-        return get().getNode("Formatting", "prefixformat").getString();
+        return configNode.getNode("Formatting", "prefixformat").getString();
     }
 
     public String getSuffixFormat(){
-        return get().getNode("Formatting", "suffixformat").getString();
+        return configNode.getNode("Formatting", "suffixformat").getString();
     }
 
     public String getHeader() {
-        return get().getNode("header").getString();
+        return configNode.getNode("header").getString();
     }
 
     public String getFooter() {
-        return get().getNode("footer").getString();
+        return configNode.getNode("footer").getString();
     }
 }
